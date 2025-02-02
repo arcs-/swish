@@ -1,12 +1,17 @@
 import type { Selectable } from 'kysely'
-import type { Recipe } from '~/types/kysely'
+import type { Ingredient, Recipe } from '~/types/kysely'
 
 export const useRecipesStore = defineStore('recipes', {
+
+  persist: true,
+
   state: () => ({
     recipes: [] as Selectable<Recipe>[],
-    suggestions: [] as Selectable<Recipe>[],
+    progress: 0,
+    suggestions: [] as Selectable<Recipe & { ingredients: Selectable<Ingredient>[] }>[],
     potentialMatches: [] as number[],
   }),
+
   actions: {
     async fetchAll() {
       const { recipes } = await $fetch('/api/recipe/all')

@@ -1,6 +1,6 @@
 <template>
-  <UiContainer class="flex flex-col gap-6">
-    <div class="rounded-md bg-white p-4 shadow-xl">
+  <UiContainer class="flex flex-col gap-6 py-8">
+    <div class="rounded-md bg-white p-4 shadow-xl graph-paper">
       <h2 class="mb-4 text-2xl font-bold">
         Likes
       </h2>
@@ -9,9 +9,9 @@
         <li
           v-for="recipe, index in recipes"
           :key="recipe.id"
-          class="truncate rounded px-2 py-1 text-lg odd:bg-slate-100"
+          class="truncate rounded px-2 py-1 text-lg odd:bg-slate-300/50"
         >
-          <NuxtLinkLocale>
+          <NuxtLinkLocale :to="{ name: 'add', query: { id: recipe.id } }">
             {{ index + 1 }}. {{ recipe.name }}
           </NuxtLinkLocale>
         </li>

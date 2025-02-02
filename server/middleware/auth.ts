@@ -1,6 +1,6 @@
-import { getSession } from '~/server/utils/auth'
+import { getSessionUser } from '~/server/utils/auth'
 
-const withoutLoginUrls = [
+const WHITELIST = [
   '/api/user/me',
   '/api/user/login',
   '/api/user/register',
@@ -12,14 +12,14 @@ export default defineEventHandler((event) => {
 
   if (!url.pathname.startsWith('/api/')) return
 
-  const session = getSession(event)
-  event.context.auth = session
+  const user = getSessionUser(event)
+  event.context.auth = user
 
-  if (withoutLoginUrls.includes(url.pathname)) {
+  if (WHITELIST.includes(url.pathname)) {
     return
   }
 
-  if (!session) {
+  if (!user) {
     throw new Error('Not authenticated')
   }
 })

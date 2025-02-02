@@ -3,6 +3,8 @@ import type { User } from '~/types/kysely'
 
 export const useAuthStore = defineStore('user', {
 
+  persist: true,
+
   state: () => ({
     user: null as null | Selectable<User>,
     family: null as null | Pick<Selectable<User>, 'id' | 'email' | 'first_name' | 'last_name'>[],

@@ -1,3 +1,5 @@
+/* eslint-disable @stylistic/newline-per-chained-call */
+
 import type { Insertable, Updateable } from 'kysely'
 import { z, object } from 'zod'
 import { StatusCodes } from 'http-status-codes'
@@ -6,25 +8,17 @@ import type { Ingredient, Recipe } from '~/types/kysely'
 
 export const updateSchema = object({
   id: z.number(),
-  name: z.string().max(255)
-    .min(5),
-  description: z.string().max(1024)
-    .optional(),
-  instructions: z.string().max(1024)
-    .optional(),
-  source: z.string().max(1024)
-    .optional(),
-  cover: z.string().max(1024)
-    .optional(),
+  name: z.string().max(255).min(5),
+  description: z.string().max(1024).optional(),
+  instructions: z.string().max(1024).optional(),
+  source: z.string().max(1024).optional(),
+  cover: z.string().max(1024).optional(),
   ingredients: z.array(z.object({
-    name: z.string().max(255)
-      .min(2),
+    name: z.string().max(255).min(2),
     amount: z.string(),
-    unit: z.string().max(255)
-      .min(1)
-      .optional(),
-    optional: z.boolean().optional(),
-    order: z.number().optional(),
+    // unit: z.string().max(255).min(1).optional(),
+    // optional: z.coerce.number().optional(),
+    order: z.coerce.number().optional(),
   })).min(1),
 })
 
@@ -67,7 +61,7 @@ export default defineEventHandler(async (event) => {
     recipe_id: body.id,
     name: ingredient.name,
     amount: ingredient.amount,
-    unit: ingredient.unit,
+    // unit: ingredient.unit,
     order: ingredient.order,
   }))
 

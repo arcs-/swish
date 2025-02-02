@@ -35,7 +35,7 @@ export function destroySession(event: any) {
   deleteCookie(event, COOKIE_NAME)
 }
 
-export function getSession(event: any) {
+export function getSessionUser(event: any) {
   const bearer = getCookie(event, COOKIE_NAME)
   if (!bearer) return null
   return jwt.decode(bearer)

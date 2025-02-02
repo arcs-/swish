@@ -2,13 +2,13 @@
   <textarea
     v-if="textarea"
     v-model="model"
-    type="text"
     class="w-full rounded-md border-2 border-black p-2"
+    :rows="3"
   />
   <input
     v-else
     v-model="model"
-    :rows="3"
+    type="text"
     class="w-full rounded-md border-2 border-black p-2"
   />
 </template>

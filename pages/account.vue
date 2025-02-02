@@ -1,6 +1,6 @@
 <template>
-  <UiContainer class="flex flex-col gap-6 pt-8">
-    <div class="rounded-md bg-white p-4 pb-8 shadow-xl">
+  <UiContainer class="flex flex-col gap-6 py-8">
+    <div class="rounded-md bg-white p-4 pb-8 shadow-xl graph-paper">
       <h2 class="mb-4 text-xl font-bold">
         Personalien
       </h2>
@@ -10,15 +10,15 @@
         class="flex flex-col items-start gap-3"
         @submit.prevent="save"
       >
-        <UiInput :value="auth.user!.first_name" name="first_name" />
-        <UiInput :value="auth.user!.email" name="email" type="email" />
+        <UiInput :model-value="auth.user!.first_name" name="first_name" />
+        <UiInput :model-value="auth.user!.email" name="email" type="email" />
         <UiButton type="submit">
           Speichern
         </UiButton>
       </form>
     </div>
 
-    <div class="rounded-md bg-white p-4 shadow-xl">
+    <div class="rounded-md bg-white p-4 shadow-xl graph-paper">
       <h2 class="mb-4 text-xl font-bold">
         Familie
       </h2>
@@ -48,7 +48,7 @@
       </UiButton>
     </div>
 
-    <div class="rounded-md bg-white p-4 shadow-xl">
+    <div class="rounded-md bg-white p-4 shadow-xl graph-paper">
       <UiButton @click="logout">
         Abmelden
       </UiButton>

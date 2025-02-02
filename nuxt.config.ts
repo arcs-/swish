@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       },
     },
     pageTransition: {
-      name: 'page',
+      name: 'fade',
       mode: 'out-in',
     },
   },
@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon',
     '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
     '@nuxt/eslint',
@@ -70,6 +71,10 @@ export default defineNuxtConfig({
         file: 'de.json',
       },
     ],
+  },
+
+  piniaPluginPersistedstate: {
+    storage: 'localStorage',
   },
 
 })

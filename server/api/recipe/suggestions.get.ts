@@ -9,10 +9,12 @@ export const suggestionsSchema = object({
   position: z.coerce.number().min(0),
 })
 
+type RecipeWithIngredients = Selectable<Recipe> & { ingredients: Selectable<Ingredient>[] }
+
 export default defineEventHandler(async (event) => {
   const body = suggestionsSchema.parse(getQuery(event))
 
-  let fromOthers: Selectable<Recipe & { ingredients: Ingredient[] }>[]
+  let fromOthers: RecipeWithIngredients[]
   try {
     const auth = getAuth(event)
 
@@ -47,6 +49,6 @@ export default defineEventHandler(async (event) => {
     recipes: [
       ...fromOthers,
       ...suggestions,
-    ],
+    ] as RecipeWithIngredients[],
   }
 })

@@ -5,7 +5,7 @@ import type { DB } from '~/types/kysely'
 export function withIngredients(eb: ExpressionBuilder<DB, 'recipe'>) {
   return jsonArrayFrom(
     eb.selectFrom('ingredient')
-      .select(['name', 'amount', 'unit', 'optional'])
+      .select(['id', 'name', 'amount'])
       .whereRef('ingredient.recipe_id', '=', 'recipe.id')
       .orderBy('ingredient.order', 'asc'),
   ).as('ingredients')
