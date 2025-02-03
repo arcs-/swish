@@ -60,18 +60,20 @@ const form = ref({
   }[],
 })
 
-try {
-  const base = await $fetch('/api/recipe/one', {
-    params: { id: route.query.id },
-  })
-  form.value.id = base.id
-  form.value.name = base.name
-  form.value.description = base.description ?? ''
-  form.value.instructions = base.instructions ?? ''
-  form.value.source = base.source ?? ''
-  form.value.ingredients = base.ingredients ?? []
-} catch {
-  // ignore error
+if (route.query.id) {
+  try {
+    const base = await $fetch('/api/recipe/one', {
+      params: { id: route.query.id },
+    })
+    form.value.id = base.id
+    form.value.name = base.name
+    if (base.description)form.value.description = base.description
+    if (base.instructions)form.value.instructions = base.instructions
+    if (base.source)form.value.source = base.source
+    form.value.ingredients = base.ingredients
+  } catch {
+    // ignore error
+  }
 }
 
 watch(() => form.value.ingredients, () => {

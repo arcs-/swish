@@ -1,3 +1,4 @@
+import { env } from 'process'
 import jwt from 'jsonwebtoken'
 import type { Selectable } from 'kysely'
 import type { User } from '~/types/kysely'
@@ -26,7 +27,7 @@ export function createSession(event: any, user: Selectable<User>) {
 
   setCookie(event, COOKIE_NAME, token, {
     httpOnly: true,
-    // secure: true,
+    secure: env.NODE_ENV !== 'development',
     sameSite: 'strict',
   })
 }

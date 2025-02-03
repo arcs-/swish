@@ -7,7 +7,7 @@ export const useAuthStore = defineStore('user', {
 
   state: () => ({
     user: null as null | Selectable<User>,
-    family: null as null | Pick<Selectable<User>, 'id' | 'email' | 'first_name' | 'last_name'>[],
+    family: null as null | Pick<Selectable<User>, 'id' | 'email' | 'name'>[],
   }),
 
   actions: {

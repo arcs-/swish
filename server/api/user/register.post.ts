@@ -8,7 +8,7 @@ import { createSession } from '~/server/utils/auth'
 
 export const registerSchema = object({
   email: z.string(),
-  first_name: z.string(),
+  name: z.string(),
   password: z.string(),
 })
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
   const newUser: Insertable<User> = {
     email: body.email,
-    first_name: body.first_name,
+    name: body.name,
   }
 
   const existing = await db.selectFrom('user')

@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "postinstall": "nuxt prepare",
     "lint:fix": "eslint --fix .",
-    "preview": "nuxt preview"
+    "gen": "kysely-codegen --url 'env(NUXT_DATABASE_URL)' --out-file types/kysely.d.ts"
   },
   "dependencies": {
     "@brugarolas/swing": "^3.3.0",
@@ -42,6 +42,7 @@
     "@vueuse/integrations": "^10.11.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.19.0",
+    "kysely-codegen": "^0.17.0",
     "nuxt": "^3.15.4",
     "postcss": "^8.5.1",
     "postcss-import": "^16.1.0",

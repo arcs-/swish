@@ -7,7 +7,7 @@
 
       <form class="flex flex-col items-start gap-3" @submit.prevent="register">
         <UiInput
-          v-model="form.first_name"
+          v-model="form.name"
           placeholder="Name"
           required
         />
@@ -39,7 +39,7 @@ const localePath = useLocalePath()
 if (auth.user) router.push(localePath({ name: 'index' }))
 
 const form = ref({
-  first_name: '',
+  name: '',
   email: '',
   password: '',
 })

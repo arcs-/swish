@@ -35,7 +35,7 @@
         active-class="bg-white scale-110"
       >
         <Icon name="lucide:chef-hat" size="2.2rem" />
-        <span class="absolute top-[10px] text-xs">{{ auth.user.first_name[0] }}</span>
+        <span class="absolute top-[10px] text-xs">{{ auth.user.name[0] }}</span>
       </nuxtlinklocale>
     </div>
   </UiContainer>

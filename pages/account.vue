@@ -10,7 +10,7 @@
         class="flex flex-col items-start gap-3"
         @submit.prevent="save"
       >
-        <UiInput :model-value="auth.user!.first_name" name="first_name" />
+        <UiInput :model-value="auth.user!.name" name="name" />
         <UiInput :model-value="auth.user!.email" name="email" type="email" />
         <UiButton type="submit">
           Speichern
@@ -35,10 +35,10 @@
           "
         >
           <Icon name="lucide:chef-hat" size="2.2rem" />
-          <span class="absolute top-[8px] text-xs">{{ member.first_name[0] }}</span>
+          <span class="absolute top-[8px] text-xs">{{ member.name[0] }}</span>
         </div>
         <div class="leading-4">
-          {{ member.first_name }}<br>
+          {{ member.name }}<br>
           <span class="text-gray-500">{{ member.email }}</span>
         </div>
       </div>

@@ -6,7 +6,6 @@ export function withIngredients(eb: ExpressionBuilder<DB, 'recipe'>) {
   return jsonArrayFrom(
     eb.selectFrom('ingredient')
       .select(['id', 'name', 'amount'])
-      .whereRef('ingredient.recipe_id', '=', 'recipe.id')
-      .orderBy('ingredient.order', 'asc'),
+      .whereRef('ingredient.recipe_id', '=', 'recipe.id'),
   ).as('ingredients')
 }

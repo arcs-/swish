@@ -4,29 +4,27 @@
       Heute
     </h2>
 
-    {{ top.map(o => o.recipe.value.name + o.index.value).join(', ') }}
-
     <ul class="flex grow items-center justify-center">
       <li
-        v-for="entry, index in top"
+        v-for="entry, index in cards"
         :key="index"
-        ref="cards"
+        ref="cardsElements"
         class="absolute w-[90%] max-w-[25rem]"
-        :style="{ zIndex: entry.index.value + 1 }"
+        :style="{ zIndex: size - entry.index.value }"
       >
         <UiRecipe
           :recipe="entry.recipe"
           :class="{
             'transition': !fullscreen,
-            'pointer-events-none': entry.index.value !== 2,
-            'translate-x-[-4px] rotate-1': entry.index.value === 0,
+            'pointer-events-none': entry.index.value !== 0,
+            'translate-x-[-4px] rotate-1': entry.index.value === 2,
             'translate-x-[4px] -rotate-2': entry.index.value === 1,
-            '!border-green-500': state === 'match' && entry.index.value === 2,
+            '!border-green-500': state === 'match' && entry.index.value === 0,
           }"
           @fullscreen="full => toggleFullscreen(full, index)"
         />
         <div
-          v-if="state && entry.index.value === 2"
+          v-if="state && entry.index.value === 0"
           class="absolute left-0 top-0 flex size-full items-center justify-center"
         >
           <div
@@ -65,12 +63,12 @@ import JSConfetti from 'js-confetti'
 const store = useRecipesStore()
 await store.fetchSuggestions()
 
-let stack: Swing.Stack
+let swing: Swing.Stack
 let confetti: JSConfetti
 
 const size = 3
 
-const top = store.suggestions
+const cards = store.suggestions
   .slice(store.progress, store.progress + size)
   .map((recipe, index) => ({
     recipe: ref(recipe),
@@ -78,16 +76,12 @@ const top = store.suggestions
   }))
 
 const fullscreen = ref(false)
-const cards = ref<HTMLAnchorElement[]>([])
+const cardsElements = ref<HTMLAnchorElement[]>([])
 const state = ref<null | 'like' | 'throw' | 'match'>(null)
 const stateConfidence = ref(0)
 
-onMounted(async () => {
-  await nextTick()
-
-  confetti = new JSConfetti()
-
-  stack = Swing.Stack({
+onMounted(() => {
+  swing = Swing.Stack({
     throwOutConfidence: (xOffset: number, yOffset: number, element: HTMLElement) => {
       const boost = 3
       const xConfidence = Math.min((Math.abs(xOffset) / element.offsetWidth) * boost, 1)
@@ -95,10 +89,12 @@ onMounted(async () => {
       return Math.max(xConfidence, yConfidence)
     },
   })
-  cards.value.forEach(el => stack.createCard(el))
-  stack.on('dragmove', onDragMove)
-  stack.on('dragend', onDragEnd)
-  stack.on('throwout', onThrowOut)
+  cardsElements.value.forEach(el => swing.createCard(el))
+  swing.on('dragmove', onDragMove)
+  swing.on('dragend', onDragEnd)
+  swing.on('throwout', onThrowOut)
+
+  confetti = new JSConfetti()
 })
 
 function onDragMove(event: any) {
@@ -116,7 +112,7 @@ function onDragEnd() {
 function onThrowOut(event: any) {
   // on like
   if (event.throwDirection === Swing.Direction.RIGHT) {
-    const liked = top.find(o => o.index.value === 2)!
+    const liked = cards.find(o => o.index.value === 0)!
     $fetch('/api/recipe/like', {
       method: 'post',
       body: { ids: [liked.recipe.value.id] },
@@ -128,34 +124,34 @@ function onThrowOut(event: any) {
       state.value = 'match'
       const style = window.getComputedStyle(event.target)
       const matrix = new WebKitCSSMatrix(style.transform)
-      stack.getCard(event.target).throwIn(matrix.m41, matrix.m42)
+      swing.getCard(event.target).throwIn(matrix.m41, matrix.m42)
       return
     }
   }
 
   store.progress = (store.progress + 1) % store.suggestions.length
-  const next = store.suggestions[store.progress]
-  top.forEach((entry) => {
-    entry.index.value = (entry.index.value + 1) % size
-    if (entry.index.value === 0) entry.recipe.value = next
+  const next = store.suggestions[(store.progress + size - 1) % store.suggestions.length]
+  cards.forEach((entry) => {
+    entry.index.value = (size + (entry.index.value - 1)) % size
+    if (entry.index.value === 2) entry.recipe.value = next
   })
-  stack.getCard(event.target).throwIn(0, 0)
+  swing.getCard(event.target).throwIn(0, 0)
 }
 
 function toggleFullscreen(state: boolean, index: number) {
   fullscreen.value = state
-  const current = cards.value[index]
+  const current = cardsElements.value[index]
   if (state) {
-    const card = stack.getCard(current)
+    const card = swing.getCard(current)
     card.destroy()
     current.style.transform = ''
   } else {
-    stack.createCard(current)
+    swing.createCard(current)
   }
 }
 
 onUnmounted(() => {
-  stack.destroyAll()
+  swing.destroyAll()
   confetti.destroyCanvas()
 })
 </script>

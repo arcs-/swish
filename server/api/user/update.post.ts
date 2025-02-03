@@ -5,8 +5,7 @@ import type { User } from '~/types/kysely'
 import { db } from '~/server/storage/db'
 
 export const updateSchema = object({
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
+  name: z.string().optional(),
   email: z.string().optional(),
   password: z.string().optional(),
   family_id: z.number().optional(),
@@ -17,8 +16,7 @@ export default defineEventHandler(async (event) => {
   const session = getAuth(event)
 
   const userUpdate: Updateable<User> = {
-    first_name: body.first_name,
-    last_name: body.last_name,
+    name: body.name,
     email: body.email,
     family_id: body.family_id,
   }

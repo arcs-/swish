@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   const family = await db.selectFrom('user')
     .where('family_id', '=', user.family_id)
-    .select(['id', 'email', 'first_name', 'last_name'])
+    .select(['id', 'email', 'name'])
     .execute()
 
   return {

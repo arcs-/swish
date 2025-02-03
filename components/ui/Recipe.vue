@@ -21,8 +21,8 @@
     <table class="w-full">
       <tbody>
         <tr
-          v-for="ingrediant, index in recipe.ingredients"
-          :key="index"
+          v-for="ingrediant in recipe.ingredients"
+          :key="ingrediant.id"
           class="text-lg odd:bg-slate-300/50"
         >
           <td class="pl-2">
